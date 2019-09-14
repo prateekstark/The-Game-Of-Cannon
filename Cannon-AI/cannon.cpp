@@ -225,19 +225,27 @@ public:
 		}
 		return moves;
 	}
+	vector<string> validCannonMoves(int player, vector<vector<int> > myState){
+		int i, j;
 
+		if(player == 1){
+			for(int i=0;i<myState.size();i++){
+				for(int j=0;j<myState.at(0).size();j++){
 
-	bool canSoldierAttack
-
-	// vector<string> captureMoves(int player){
-
-
-	// }
-
-
-
-
-
+				}
+			}	
+		}
+		
+		if(player == 2){
+			for(int i=0;i<myState.size();i++){
+				for(int j=0;j<myState.at(0).size();j++){
+					if(isSoldierLeadOfCannon(i, j, player, myState)){
+						if()
+					}
+				}
+			}
+		}
+	}
 
 };
 
