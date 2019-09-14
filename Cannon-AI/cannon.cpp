@@ -107,7 +107,7 @@ public:
 
 			if(isSoldierLeadOfCannon(x-2, y+2, 2, myState) || isSoldierLeadOfCannon(x-3, y+3, 2, myState)){
 				return true;
-			}	
+			}
 		}
 		return false;
 	}
@@ -149,7 +149,7 @@ public:
 		}
 	}
 
-	vector<string> validMovesWithoutCapture(int player, vector<vector<int> > myState){
+	vector<string> validMoves(int player, vector<vector<int> > myState){
 		vector<string> moves;
 		if(player == 2){
 			string move;
@@ -171,15 +171,23 @@ public:
 								moves.push_back(move);
 							}
 						}
-						if(myState.at(i).at(j+1) == 0){
+						if(myState.at(i+1).at(j) == 1){
+							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j);
+							moves.push_back(move);
+						}
+						if(myState.at(i-1).at(j) == 1){
+							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j);
+							moves.push_back(move);
+						}
+						if(myState.at(i).at(j+1) != 2){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j+1);
 							moves.push_back(move);
 						}
-						if(myState.at(i+1).at(j+1) == 0){
+						if(myState.at(i+1).at(j+1) != 2){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j+1);
 							moves.push_back(move);
 						}
-						if(myState.at(i-1).at(j+1) == 0){
+						if(myState.at(i-1).at(j+1) != 2){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j+1);
 							moves.push_back(move);
 						}
@@ -207,15 +215,23 @@ public:
 								moves.push_back(move);
 							}
 						}
-						if(myState.at(i).at(j-1) == 0){
+						if(myState.at(i+1).at(j) == 2){
+							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j);
+							moves.push_back(move);
+						}
+						if(myState.at(i-1).at(j) == 2){
+							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j);
+							moves.push_back(move);
+						}
+						if(myState.at(i).at(j-1) != 1){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j-1);
 							moves.push_back(move);
 						}
-						if(myState.at(i+1).at(j-1) == 0){
+						if(myState.at(i+1).at(j-1) != 1){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j-1);
 							moves.push_back(move);
 						}
-						if(myState.at(i-1).at(j-1) == 0){
+						if(myState.at(i-1).at(j-1) != 1){
 							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j-1);
 							moves.push_back(move);
 						}
@@ -225,28 +241,135 @@ public:
 		}
 		return moves;
 	}
-	vector<string> validCannonMoves(int player, vector<vector<int> > myState){
-		int i, j;
-
+	vector<string> validCannonMovesNonCapture(int player, vector<vector<int> > myState){
+		vector<string> moves;
 		if(player == 1){
 			for(int i=0;i<myState.size();i++){
 				for(int j=0;j<myState.at(0).size();j++){
-
-				}
-			}	
-		}
-		
-		if(player == 2){
-			for(int i=0;i<myState.size();i++){
-				for(int j=0;j<myState.at(0).size();j++){
-					if(isSoldierLeadOfCannon(i, j, player, myState)){
-						if()
+					if(isSoldierLeadOfCannon(i, j, 1, myState)){
+						if(myState.at(i).at(j+1) == 1 && myState.at(i).at(j+2) == 1){
+							if(myState.at(i).at(j+3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j+3);
+								moves.push_back(move);
+							}
+							if(myState.at(i).at(j-1) == 0){
+								move = "S " + to_string(i) + " " + to_string(j+2) + " M " + to_string(i) + " " + to_string(j-1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-3);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+5);
+							moves.push_back(move);
+						}
+						if(myState.at(i-1).at(j+1) == 1 && myState.at(i-2).at(j+2) == 1){
+							if(myState.at(i-3).at(j+3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-3) + " " + to_string(j+3);
+								moves.push_back(move);
+							}
+							if(myState.at(i+1).at(j-1) == 0){
+								move = "S " + to_string(i-2) + " " + to_string(j+2) + " M " + to_string(i+1) + " " + to_string(j-1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-3);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+5);
+							moves.push_back(move);
+						}
+						if(myState.at(i+1).at(j+1) == 1 && myState.at(i+2).at(j+2) == 1){
+							if(myState.at(i+3).at(j+3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+3) + " " + to_string(j+3);
+								moves.push_back(move);
+							}
+							if(myState.at(i-1).at(j-1) == 0){
+								move = "S " + to_string(i+2) + " " + to_string(j+2) + " M " + to_string(i-1) + " " + to_string(j-1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-3);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+5);
+							moves.push_back(move);
+						}
 					}
 				}
 			}
 		}
-	}
 
+		if(player == 2){
+			for(int i=0;i<myState.size();i++){
+				for(int j=0;j<myState.at(0).size();j++){
+					if(isSoldierLeadOfCannon(i, j, 2, myState)){
+						if(myState.at(i).at(j-1) == 2 && myState.at(i).at(j-2) == 2){
+							if(myState.at(i).at(j-3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j-3);
+								moves.push_back(move);
+							}
+							if(myState.at(i).at(j+1) == 0){
+								move = "S " + to_string(i) + " " + to_string(j-2) + " M " + to_string(i) + " " + to_string(j+1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+3);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j-2) + " B " + to_string(i) + " " + to_string(j-4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j-2) + " B " + to_string(i) + " " + to_string(j-5);
+							moves.push_back(move);
+						}
+						if(myState.at(i-1).at(j-1) == 2 && myState.at(i-2).at(j-2) == 2){
+							if(myState.at(i-3).at(j-3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-3) + " " + to_string(j-3);
+								moves.push_back(move);
+							}
+							if(myState.at(i+1).at(j+1) == 0){
+								move = "S " + to_string(i-2) + " " + to_string(j-2) + " M " + to_string(i+1) + " " + to_string(j+1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j+2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j+3);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j-4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j-5);
+							moves.push_back(move);
+						}
+						if(myState.at(i+1).at(j-1) == 2 && myState.at(i+2).at(j-2) == 2){
+							if(myState.at(i+3).at(j-3) == 0){
+								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+3) + " " + to_string(j-3);
+								moves.push_back(move);
+							}
+							if(myState.at(i-1).at(j+1) == 0){
+								move = "S " + to_string(i+2) + " " + to_string(j-2) + " M " + to_string(i-1) + " " + to_string(j+1);
+								moves.push_back(move);
+							}
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+4) + " " + to_string(j-4);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+5) + " " + to_string(j-5);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-2) + " " + to_string(j+2);
+							moves.push_back(move);
+							move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-3) + " " + to_string(j+3);
+							moves.push_back(move);
+						}
+					}
+				}
+			}
+		}
+		return moves;
+	}
 };
 
 
