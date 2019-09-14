@@ -27,8 +27,8 @@ public:
             cerr<<"Wrong player!"<<endl;
             return false;
         }
-        int n = board.size();
-        int m = board.at(0).size();
+        int n = myState.size();
+        int m = myState.at(0).size();
         //board is a 2D vector of size n*m
         if(player == 2){
             if(y+1 < m){
@@ -215,6 +215,289 @@ public:
             }
         }
         return false;
+    }
+
+    int numberOfSoldierCanbeAttacked(int player, vector<vector<int> > myState){
+        int n = myState.size();
+        int m = myState.at(0).size();
+        int count = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(canSoldierBeAttacked(i, j, player, myState)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    int numberOfSoldiers(int player, vector<vector<int> > myState){
+        int count = 0;
+        for(int i=0;i<myState.size();i++){
+            for(int j=0;j<myState.at(0).size();j++){
+                if(myState.at(i).at(j) == player){
+                    count++;
+                }
+            }
+        }
+    }
+
+    int numberOfTownHall(int player, vector<vector<int> > myState){
+        int count = 0;
+        for(int i=0;i<myState.size();i++){
+            for(int j=0;j<myState.at(0).size();j++){
+                if(myState.at(i).at(j) == player*10){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    int numberOfCannon(int player, vector<vector<int> > myState){
+        int count = 0;
+        for(int i=0;i<myState.size();i++){
+            for(j=0;j<myState.at(0).size();j++){
+                if(isSoldierLeadOfCannon(i, j, player, myState)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+
+
+//lesser thecloseness factor, better it is
+    int closenessFactor(int player, vector<vector<int> > myState){
+        int count = 0;
+        if(player == 1){
+            for(int i=0;i<myState.size();i++){
+                for(int j=0;j<myState.size();j++){
+                    if(myState.at(i).at(j) == player){
+                        count = count + i;
+                    }
+                }
+            }
+        }
+        if(player == 2){
+            for(int i=0;i<myState.size();i++){
+                for(int j=0;j<myState.at(0).size();j++){
+                    if(myState.at(i).at(j) == player){
+                        count = count + (n-i-1);
+                    }
+                }
+            }
+        }
+        return closenessFactor;
+    }
+//number of soldiers --done
+//number of townhall --done
+//number of sodier to be attacked --done
+//number of th to be attacked --done
+//number of cannon --done
+//closeness of soldier --done
+
+//evaluationFunction --done
+    int numberOfTownHallCanBeAttacked(int player, vector<vector<int> > myState){
+        if(myState.at(x).at(y) != player*10){
+            cerr<<"Wrong player!"<<endl;
+            return false;
+        }
+        int n = myState.size();
+        int m = myState.at(0).size();
+        if(player == 2){
+            if(y+1 < m){
+                if(myState[x][y+1] == 1){
+                    return true;
+                }
+            }
+
+            if(x+1 < n && y+1 < m){
+                if(myState[x+1][y+1] == 1){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0 && y+1 < m){
+                if(myState.at(x-1).at(y+1) == 1){
+                    return true;
+                }
+            }
+
+            if(x+1 < n){
+                if(myState.at(x+1).at(y) == 1){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0){
+                if(myState.at(x-1).at(y) == 1){
+                    return true;
+                }
+            }
+
+            if(y+3<m){
+                if(isSoldierLeadOfCannon(x, y+3, 1, myState)){
+                    return true;
+                }
+                if(x+3 < n){
+                    if(isSoldierLeadOfCannon(x+3, y+3, 1, myState)){
+                        return true;
+                    }
+                }
+                if(x-3 >= 0){
+                    if(isSoldierLeadOfCannon(x-3, y+3, 1, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y+2<m){
+                if(isSoldierLeadOfCannon(x, y+2, 1, myState)){
+                    return true;
+                }
+                if(x+2 < n){
+                    if(isSoldierLeadOfCannon(x+2, y+2, 1, myState)){
+                        return true;
+                    }
+                }
+                if(x-2 >= 0){
+                    if(isSoldierLeadOfCannon(x-2, y+2, 1, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y-3 >= 0){
+                if(isSoldierLeadOfCannon(x, y-3, 1, myState)){
+                    return true;
+                }
+                if(x+3 < n){
+                    if(isSoldierLeadOfCannon(x+3, y-3, 1, myState)){
+                        return true;
+                    }
+                }
+                if(x-3 >= 0){
+                    if(isSoldierLeadOfCannon(x-3, y-3, 1, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y-2 >= 0){
+                if(isSoldierLeadOfCannon(x, y-2, 1, myState)){
+                    return true;
+                }
+                if(x+2 < n){
+                    if(isSoldierLeadOfCannon(x+2, y-2, 1, myState)){
+                        return true;
+                    }
+                }
+                if(x-2 >= 0){
+                    if(isSoldierLeadOfCannon(x-2, y-2, 1, myState)){
+                        return true;
+                    }
+                }
+            }
+        }
+        if(player == 1){
+            if(y-1 >= 0){
+                if(myState[x][y-1] == 2){
+                    return true;
+                }
+            }
+
+            if(x+1 < n && y-1 >= 0){
+                if(myState[x+1][y-1] == 2){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0 && y-1 >= 0){
+                if(myState.at(x-1).at(y-1) == 2){
+                    return true;
+                }
+            }
+
+            if(x+1 < n){
+                if(myState.at(x+1).at(y) == 2){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0){
+                if(myState.at(x-1).at(y) == 2){
+                    return true;
+                }
+            }
+
+            if(y+3<m){
+                if(isSoldierLeadOfCannon(x, y+3, 2, myState)){
+                    return true;
+                }
+                if(x+3 < n){
+                    if(isSoldierLeadOfCannon(x+3, y+3, 2, myState)){
+                        return true;
+                    }
+                }
+                if(x-3 >= 0){
+                    if(isSoldierLeadOfCannon(x-3, y+3, 2, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y+2<m){
+                if(isSoldierLeadOfCannon(x, y+2, 2, myState)){
+                    return true;
+                }
+                if(x+2 < n){
+                    if(isSoldierLeadOfCannon(x+2, y+2, 2, myState)){
+                        return true;
+                    }
+                }
+                if(x-2 >= 0){
+                    if(isSoldierLeadOfCannon(x-2, y+2, 2, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y-3 >= 0){
+                if(isSoldierLeadOfCannon(x, y-3, 2, myState)){
+                    return true;
+                }
+                if(x+3 < n){
+                    if(isSoldierLeadOfCannon(x+3, y-3, 2, myState)){
+                        return true;
+                    }
+                }
+                if(x-3 >= 0){
+                    if(isSoldierLeadOfCannon(x-3, y-3, 2, myState)){
+                        return true;
+                    }
+                }
+            }
+            if(y-2 >= 0){
+                if(isSoldierLeadOfCannon(x, y-2, 2, myState)){
+                    return true;
+                }
+                if(x+2 < n){
+                    if(isSoldierLeadOfCannon(x+2, y-2, 2, myState)){
+                        return true;
+                    }
+                }
+                if(x-2 >= 0){
+                    if(isSoldierLeadOfCannon(x-2, y-2, 2, myState)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    int evaluationFunction(vector<int> coefficients){
+        int answer = coefficients.at(0)*numberOfSoldierCanbeAttacked(1, myState) + coefficients.at(1)*numberOfSoldierCanbeAttacked(2, myState) + coefficients.at(2)*numberOfSoldiers(1, myState) + coefficients.at(3)*numberOfSoldiers(2, myState);
+        answer = answer + coefficients.at(4)*numberOfTownHall(1, myState) + coefficients.at(5)*numberOfTownHall(2, myState) + coefficients.at(6)*numberOfCannon(1, myState) + coefficients.at(7)*numberOfCannon(2, myState);
+        answer = answer + coefficients.at(8)*closenessFactor(1, myState) + coefficients.at(9)*closenessFactor(2, myState) + coefficients.at(10)*numberOfTownHallCanBeAttacked(1, myState) + coefficients.at(11)*numberOfTownHallCanBeAttacked(2, myState);
+        return answer;
     }
 
     bool isSoldierLeadOfCannon(int x, int y, int player, vector<vector<int> > myState){
