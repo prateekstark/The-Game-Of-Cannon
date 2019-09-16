@@ -1113,10 +1113,9 @@ public:
         return moves;
     }
 
-    int Max_Val(vector<vector<int> > &ret, int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
+    int Max_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
 
     	if(d == 0){
-    		ret = curState;
             x = cx;
     		// return evaluationFunction(curState);
             return 0;
@@ -1129,17 +1128,15 @@ public:
         cout<<nextMoves.size()<<endl;
 
     	for(int i=0; i<nextMoves.size(); i++){
-    		vector<vector<int> > r;
             int y;
             // cout<<"hello3"<<endl;
             // cout<<i<<endl;
-    		c = Min_Val(r, y, i, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
+    		c = Min_Val(y, i, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
 
             // cout<<"hello4"<<endl;
             alpha = max(alpha,c);
             // cout<<"hello5"<<endl;
     		if(alpha >= beta){
-    			ret = r;
                 x = y;
     			return c;
     		}
@@ -1147,7 +1144,6 @@ public:
 
     		if(c > ma){
     			ma = c;
-    			ret = r;
                 x = y;
     		}
             // cout<<"hello7"<<endl;
@@ -1156,10 +1152,9 @@ public:
     	return ma;
     }
 
-    int Min_Val(vector<vector<int> > &ret, int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
+    int Min_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
     	if(d == 0){
             // cout<<"hello8"<<endl;
-    		ret = curState;
             x = cx;
     		return evaluationFunction(curState);
     	}
@@ -1177,14 +1172,12 @@ public:
         // cout<<"hello11"<<endl;
     	for(int i=0; i<nextMoves.size() ;i++){
             // cout<<"hello12"<<endl;
-    		vector<vector<int> > r;
             int y;
-    		c = Max_Val(r,y,i,nextMoves[i],d-1,alpha,beta, otherPlayer(player));
+    		c = Max_Val(y,i,nextMoves[i],d-1,alpha,beta, otherPlayer(player));
             // cout<<"hello13"<<endl;
     		beta = min(beta, c);
             // cout<<"hello14"<<endl;
     		if(alpha >= beta){
-    			ret = r;
                 x = y;
     			return c;
     		}
@@ -1192,7 +1185,6 @@ public:
 
     		if(c < mi){
     			mi = c;
-    			ret = r;
                 x = y;
                 // cout<<"hello16"<<endl;
     		}
@@ -1209,11 +1201,12 @@ public:
         // printState(ret);
         // return;
 
-        curState = ret;
-        vector<string> gs;
-
-        vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
+    	vector<string> gs;
+    	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
         retString = gs[y];
+
+        curState = nextMoves[y];
+
     	return;
     }
     int gameWinner(vector<vector<int> > myState){
