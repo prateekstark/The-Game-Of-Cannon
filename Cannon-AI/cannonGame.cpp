@@ -126,40 +126,40 @@ public:
     }
 
     vector<vector<vector<int> > > generateSteps(vector<string> &genStringMoves, int player, vector<vector<int> > myState){
-        cout<<"ghusa>"<<endl;
+        // cout<<"ghusa>"<<endl;
         vector<vector<vector<int> > > allStates;
-        cout<<"ghusa1"<<endl;
+        // cout<<"ghusa1"<<endl;
         vector<vector<int> > child;
         vector<string> possibleMoves1 = validMoves(player, myState);
-        cout<<"ghusa2"<<endl;
+        // cout<<"ghusa2"<<endl;
         for(int i=0;i<possibleMoves1.size();i++){
-            cout<<"ghusa3"<<endl;
+            // cout<<"ghusa3"<<endl;
             child = executeMove(convertStringToVector(possibleMoves1.at(i)), myState);
-            cout<<"ghusa4"<<endl;
+            // cout<<"ghusa4"<<endl;
             if(!doesSpaceContainPlane(allStates, child)){
-                cout<<"ghusa5"<<endl;
+                // cout<<"ghusa5"<<endl;
                 allStates.push_back(child);
                 genStringMoves.push_back(possibleMoves1.at(i));
             }
-            cout<<"ghusa6"<<endl;
+            // cout<<"ghusa6"<<endl;
             child.clear();
         }
 
         // return allStates;
-        cout<<"pkmkb1"<<endl;
+        // cout<<"pkmkb1"<<endl;
         vector<string> possibleMoves2 = validCannonMoves(player, myState);
-        cout<<"pkmkb2"<<endl;
+        // cout<<"pkmkb2"<<endl;
         for(int i=0;i<possibleMoves2.size();i++){
-            cout<<"pkmkb3"<<endl;
+            // cout<<"pkmkb3"<<endl;
             child = executeMove(convertStringToVector(possibleMoves2.at(i)), myState);
-            cout<<"pkmkb4"<<endl;
+            // cout<<"pkmkb4"<<endl;
             if(!doesSpaceContainPlane(allStates, child)){
-                cout<<"pkmkb5"<<endl;
+                // cout<<"pkmkb5"<<endl;
                 allStates.push_back(child);
                 genStringMoves.push_back(possibleMoves2.at(i));
             }
             child.clear();
-            cout<<"pkmkb6"<<endl;
+            // cout<<"pkmkb6"<<endl;
         }
         return allStates;
     }
@@ -758,25 +758,25 @@ public:
             for(int i=0;i<n;i++){
                 for(int j=0;j<m;j++){
                     if(myState.at(i).at(j) == 1){
-                        cout<<"baweja"<<endl;
+                        // cout<<"baweja"<<endl;
                         soldierCondition = canSoldierBeAttacked(i, j, 1, myState);
-                        cout<<"baweja1"<<endl;
+                        // cout<<"baweja1"<<endl;
                         if(soldierCondition){
                             if(j+2 <m){
-                                cout<<"baweja2"<<endl;
+                                // cout<<"baweja2"<<endl;
                                 if(myState.at(i).at(j+2) != 1 && myState.at(i).at(j+2) != 10){
     								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j+2);
     								moves.push_back(move);
     							}
                                 if(i-2 >= 0){
-                                    cout<<"baweja3"<<endl;
+                                    // cout<<"baweja3"<<endl;
                                     if(myState.at(i-2).at(j+2) != 1 && myState.at(i-2).at(j+2) != 10){
         								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-2) + " " + to_string(j+2);
         								moves.push_back(move);
         							}
                                 }
                                 if(i+2 < n){
-                                    cout<<"baweja4"<<endl;
+                                    // cout<<"baweja4"<<endl;
                                     if(myState.at(i+2).at(j+2) != 1 && myState.at(i+2).at(j+2) != 10){
         								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+2) + " " + to_string(j+2);
         								moves.push_back(move);
@@ -785,13 +785,13 @@ public:
                             }
                         }
                         if(i+1 < n){
-                            cout<<"baweja5"<<endl;
+                            // cout<<"baweja5"<<endl;
                             if(myState.at(i+1).at(j) == 2 || myState.at(i+1).at(j) == 20){
     							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j);
     							moves.push_back(move);
     						}
                             if(j-1 >= 0){
-                                cout<<"baweja6"<<endl;
+                                // cout<<"baweja6"<<endl;
                                 if(myState.at(i+1).at(j-1) != 1 && myState.at(i+1).at(j-1) != 10){
         							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i+1) + " " + to_string(j-1);
         							moves.push_back(move);
@@ -799,13 +799,13 @@ public:
                             }
                         }
                         if(i-1 >= 0){
-                            cout<<"baweja7"<<endl;
+                            // cout<<"baweja7"<<endl;
                             if(myState.at(i-1).at(j) == 2 || myState.at(i-1).at(j) == 20){
     							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j);
     							moves.push_back(move);
     						}
                             if(j-1 < m){
-                                cout<<"baweja8"<<endl;
+                                // cout<<"baweja8"<<endl;
         							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j-1);
                                     if(myState.at(i-1).at(j-1) != 1 && myState.at(i-1).at(j) == 10){
         							moves.push_back(move);
@@ -813,7 +813,7 @@ public:
                             }
                         }
                         if(j-1 < m){
-                            cout<<"baweja9"<<endl;
+                            // cout<<"baweja9"<<endl;
                             if(myState.at(i).at(j-1) != 1 && myState.at(i).at(j-1) != 10){
     							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j-1);
     							moves.push_back(move);
@@ -832,30 +832,30 @@ public:
         int m = myState.at(0).size();
         string move = "";
         if(player == 1){
-            cout<<"sona100"<<endl;
+            // cout<<"sona100"<<endl;
             for(int i=0;i<n;i++){
                 for(int j=0;j<m;j++){
-                    cout<<"sona1"<<endl;
+                    // cout<<"sona1"<<endl;
                     if(isSoldierLeadOfCannon(i, j, 1, myState)){
-                        cout<<"sona2"<<endl;
+                        // cout<<"sona2"<<endl;
                         if(j+2 < m){
-                            cout<<"sona3"<<endl;
+                            // cout<<"sona3"<<endl;
                             if(myState.at(i).at(j+1) == 1 && myState.at(i).at(j+2) == 1){
-                                cout<<"sona4"<<endl;
+                                // cout<<"sona4"<<endl;
                                 if(j+3 < m){
                                     if(myState.at(i).at(j+3) == 0){
         								move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j+3);
         								moves.push_back(move);
         							}
                                 }
-                                cout<<"sona5"<<endl;
+                                // cout<<"sona5"<<endl;
                                 if(j-1 >= 0){
                                     if(myState.at(i).at(j-1) == 0){
         								move = "S " + to_string(i) + " " + to_string(j+2) + " M " + to_string(i) + " " + to_string(j-1);
         								moves.push_back(move);
         							}
                                 }
-                                cout<<"sona6"<<endl;
+                                // cout<<"sona6"<<endl;
                                 if(j-2 >= 0){
                                     if(myState.at(i).at(j-2) != player){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-2);
@@ -967,14 +967,14 @@ public:
             }
         }
         if(player == 2){
-            cout<<"sona101"<<endl;
+            // cout<<"sona101"<<endl;
             for(int i=0;i<n;i++){
                 for(int j=0;j<m;j++){
-                    cout<<"sona2"<<endl;
+                    // cout<<"sona2"<<endl;
                     if(isSoldierLeadOfCannon(i, j, 2, myState)){
-                        cout<<"sona3"<<endl;
+                        // cout<<"sona3"<<endl;
                         if(j-2 >= 0){
-                            cout<<"sona4"<<endl;
+                            // cout<<"sona4"<<endl;
                             if(myState.at(i).at(j-1) == 2 && myState.at(i).at(j-2) == 2){
                                 if(j-3 >= 0){
                                     if(myState.at(i).at(j-3) == 0){
@@ -982,35 +982,35 @@ public:
         								moves.push_back(move);
         							}
                                 }
-                                cout<<"sona5"<<endl;
+                                // cout<<"sona5"<<endl;
                                 if(j+1 < m){
                                     if(myState.at(i).at(j+1) == 0){
         								move = "S " + to_string(i) + " " + to_string(j-2) + " M " + to_string(i) + " " + to_string(j+1);
         								moves.push_back(move);
         							}
                                 }
-                                cout<<"sona6"<<endl;
+                                // cout<<"sona6"<<endl;
                                 if(j+2 < m){
                                     if(myState.at(i).at(j+2) != player){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+2);
             							moves.push_back(move);
                                     }
                                 }
-                                cout<<"sona7"<<endl;
+                                // cout<<"sona7"<<endl;
                                 if(j+3 < m){
                                     if(myState.at(i).at(j+3) != player){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+3);
             							moves.push_back(move);
                                     }
                                 }
-                                cout<<"sona8"<<endl;
+                                // cout<<"sona8"<<endl;
                                 if(j-4 >= 0){
                                     if(myState.at(i).at(j-4) != player){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-4);
             							moves.push_back(move);
                                     }
                                 }
-                                cout<<"sona9"<<endl;
+                                // cout<<"sona9"<<endl;
                                 if(j-5 >= 0){
                                     if(myState.at(i).at(j-5) != player){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-5);
@@ -1018,7 +1018,7 @@ public:
                                     }
                                 }
                             }
-                            cout<<"sona10"<<endl;
+                            // cout<<"sona10"<<endl;
                             if(i-2 >= 0 && j-2 >= 0){
                                 if(myState.at(i-1).at(j-1) == 2 && myState.at(i-2).at(j-2) == 2){
                                     if(i-3 >= 0 && j-3 >= 0){
@@ -1027,35 +1027,35 @@ public:
             								moves.push_back(move);
             							}
                                     }
-                                    cout<<"sona11"<<endl;
+                                    // cout<<"sona11"<<endl;
                                     if(i+1 < n && j+1 < m){
                                         if(myState.at(i+1).at(j+1) == 0){
             								move = "S " + to_string(i-2) + " " + to_string(j-2) + " M " + to_string(i+1) + " " + to_string(j+1);
             								moves.push_back(move);
             							}
                                     }
-                                    cout<<"sona12"<<endl;
+                                    // cout<<"sona12"<<endl;
                                     if(j+2 < m && i+2 < n){
                                         if(myState.at(i+2).at(j+2) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j+2);
                 							moves.push_back(move);
                                         }
                                     }
-                                    cout<<"sona13"<<endl;
+                                    // cout<<"sona13"<<endl;
                                     if(j+3 < m && i+3 < n){
                                         if(myState.at(i+3).at(j+3) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j+3);
                 							moves.push_back(move);
                                         }
                                     }
-                                    cout<<"sona14"<<endl;
+                                    // cout<<"sona14"<<endl;
                                     if(j-4 >= 0 && i-4 >= 0){
                                         if(myState.at(i-4).at(j-4) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j-4);
                 							moves.push_back(move);
                                         }
                                     }
-                                    cout<<"sona15"<<endl;
+                                    // cout<<"sona15"<<endl;
                                     if(j-5 >= 0 && i-5 >= 0){
                                         if(myState.at(i-5).at(j-5) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j-5);
@@ -1170,8 +1170,8 @@ public:
         // cout<<"hello10"<<endl;
         vector<string> gs;
         // cout<<"pkmkb100"<<endl;
-        cout<<player<<endl;
-        printState(curState);
+        // cout<<player<<endl;
+        // printState(curState);
         // cout<<"pkmkb1"<<endl;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
         // cout<<"hello11"<<endl;
@@ -1233,20 +1233,19 @@ public:
 
 int main(){
     //One is black, other is white
-    int time;
-    cin>>time;
-    cout<<"Which side should I take?"<<endl;
-    int identity;
-    cin>>identity;
-    string opponentMove;
+    int n, m, identity, time;
+    cin>> identity >> n >> m >> time;
     CannonGame *game = new CannonGame();
     string a;
+    string opponentMove;
     vector<string> abc;
     if(identity == 1){
         auto start = high_resolution_clock::now();
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<seconds>(stop - start);
         int timed=(int)duration.count();
+        ofstream file;
+        file.open ("ex.txt");
         while(timed < time){
             opponentMove = "";
             for(int i=0;i<6;i++){
@@ -1263,7 +1262,10 @@ int main(){
             if(game->gameWinner(game->board) == identity){
                 cout<<"You won!!"<<endl;
             }
-            printState(game->board);
+            // printState(game->board);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<seconds>(stop - start);
+            int timed=(int)duration.count();
         }
     }
     if(identity == 2){
@@ -1273,10 +1275,8 @@ int main(){
         int timed=(int)duration.count();
         while(timed < time){
             string s = "";
-            // return 0;
-            game->nextMove(s, game->board, 4, INT_MIN, INT_MAX, identity);
+            game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, identity);
             printState(game->board);
-            return 0;
             cout<<string_to_good_string(s)<<endl;
 
             if(game->gameWinner(game->board) == identity){
@@ -1291,6 +1291,9 @@ int main(){
             if(game->gameWinner(game->board) == otherPlayer(identity)){
                 cout<<"You lost!"<<endl;
             }
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<seconds>(stop - start);
+            int timed=(int)duration.count();
         }
     }
     return 0;
