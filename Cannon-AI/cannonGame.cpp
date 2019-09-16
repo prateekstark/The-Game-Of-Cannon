@@ -38,7 +38,6 @@ string string_to_good_string(string bad){
     return answer;
 }
 
-
 class CannonGame{
 public:
     vector<vector<int> > board;
@@ -56,6 +55,15 @@ public:
             board.push_back(tempVector7);
             board.push_back(tempVector6);
         }
+        // board.push_back(tempVector4);
+        // board.push_back(tempVector5);
+        // board.push_back(tempVector5);
+        // board.push_back(tempVector3);
+        // board.push_back(tempVector3);
+        // board.push_back(tempVector2);
+        // board.push_back(tempVector2);
+        // board.push_back(tempVector1);
+
         for(int i=0;i<6;i++){
             coefficients.push_back(1);
             coefficients.push_back(-1);
@@ -110,9 +118,13 @@ public:
             }
         }
         else{
-            cerr<<"Wrong State";
+            // cerr<<moveVector.size()<<endl;
+            // for(int i=0;i<moveVector.size();i++){
+            //     cout<<moveVector[i]<<" ";
+            // }
+            // cout<<endl;
+            // cerr<<"Wrong State";
         }
-        // printState(tempState);
         return tempState;
     }
 
@@ -129,6 +141,11 @@ public:
         // cout<<"ghusa>"<<endl;
         vector<vector<vector<int> > > allStates;
         // cout<<"ghusa1"<<endl;
+        if(player == 1){
+
+
+            // cout<<"begin--------------------------"<<player<<"-----------------------------------------begin";
+        }
         vector<vector<int> > child;
         vector<string> possibleMoves1 = validMoves(player, myState);
         // cout<<"ghusa2"<<endl;
@@ -138,6 +155,10 @@ public:
             // cout<<"ghusa4"<<endl;
             if(!doesSpaceContainPlane(allStates, child)){
                 // cout<<"ghusa5"<<endl;
+                // if(player == 1){
+                //     cout<<possibleMoves1[i]<<endl;
+                // }
+
                 allStates.push_back(child);
                 genStringMoves.push_back(possibleMoves1.at(i));
             }
@@ -155,12 +176,18 @@ public:
             // cout<<"pkmkb4"<<endl;
             if(!doesSpaceContainPlane(allStates, child)){
                 // cout<<"pkmkb5"<<endl;
+                // if(player == 1)
+                    // cout<<possibleMoves2[i]<<endl;
                 allStates.push_back(child);
                 genStringMoves.push_back(possibleMoves2.at(i));
             }
             child.clear();
             // cout<<"pkmkb6"<<endl;
+
         }
+        // if(player == 1)
+            // cout<<"end--------------------------"<<player<<"-----------------------------------------end";
+
         return allStates;
     }
 
@@ -353,6 +380,79 @@ public:
                     if(isSoldierLeadOfCannon(x-2, y-2, 2, myState)){
                         return true;
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    bool isSoldierAdjacentAttacked(int x, int y, int player, vector<vector<int> > myState){
+        if(myState.at(x).at(y) != player){
+            // cerr<<"Wrong player!"<<endl;
+            return false;
+        }
+        int n = myState.size();
+        int m = myState.at(0).size();
+        //board is a 2D vector of size n*m
+        if(player == 2){
+            if(y+1 < m){
+                if(myState[x][y+1] == 1){
+                    return true;
+                }
+            }
+
+            if(x+1 < n && y+1 < m){
+                if(myState[x+1][y+1] == 1){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0 && y+1 < m){
+                if(myState.at(x-1).at(y+1) == 1){
+    				return true;
+    			}
+            }
+
+            if(x+1 < n){
+                if(myState.at(x+1).at(y) == 1){
+    				return true;
+    			}
+            }
+
+            if(x-1 >= 0){
+                if(myState.at(x-1).at(y) == 1){
+    				return true;
+    			}
+            }
+        }
+        if(player == 1){
+            if(y-1 >= 0){
+                if(myState[x][y-1] == 2){
+                    return true;
+                }
+            }
+
+            if(x+1 < n && y-1 >= 0){
+                if(myState[x+1][y-1] == 2){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0 && y-1 >= 0){
+                if(myState.at(x-1).at(y-1) == 2){
+                    return true;
+                }
+            }
+
+            if(x+1 < n){
+                if(myState.at(x+1).at(y) == 2){
+                    return true;
+                }
+            }
+
+            if(x-1 >= 0){
+                if(myState.at(x-1).at(y) == 2){
+                    return true;
                 }
             }
         }
@@ -698,7 +798,7 @@ public:
             for(int i=0;i<n;i++){
                 for(int j=0;j<m;j++){
                     if(myState.at(i).at(j) == 2){
-                        soldierCondition = canSoldierBeAttacked(i, j, 2, myState);
+                        soldierCondition = isSoldierAdjacentAttacked(i, j, 2, myState);
                         if(soldierCondition){
                             if(j-2 >= 0){
                                 if(myState.at(i).at(j-2) != 2 && myState.at(i).at(j-2) != 20){
@@ -759,7 +859,7 @@ public:
                 for(int j=0;j<m;j++){
                     if(myState.at(i).at(j) == 1){
                         // cout<<"baweja"<<endl;
-                        soldierCondition = canSoldierBeAttacked(i, j, 1, myState);
+                        soldierCondition = isSoldierAdjacentAttacked(i, j, 1, myState);
                         // cout<<"baweja1"<<endl;
                         if(soldierCondition){
                             if(j+2 <m){
@@ -1114,52 +1214,34 @@ public:
     }
 
     int Max_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
-
     	if(d == 0){
             x = cx;
-    		// return evaluationFunction(curState);
             return 0;
     	}
     	int c, ma = INT_MIN;
         vector<string> gs;
-        // cout<<"hello1"<<endl;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
-        // cout<<"hello2"<<endl;
-        cout<<nextMoves.size()<<endl;
-
     	for(int i=0; i<nextMoves.size(); i++){
             int y;
-            // cout<<"hello3"<<endl;
-            // cout<<i<<endl;
     		c = Min_Val(y, i, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
-
-            // cout<<"hello4"<<endl;
             alpha = max(alpha,c);
-            // cout<<"hello5"<<endl;
     		if(alpha >= beta){
                 x = y;
     			return c;
     		}
-            // cout<<"hello6"<<endl;
-
     		if(c > ma){
     			ma = c;
                 x = y;
     		}
-            // cout<<"hello7"<<endl;
     	}
-        // cout<<"madafaqa"<<endl;
     	return ma;
     }
 
     int Min_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
     	if(d == 0){
-            // cout<<"hello8"<<endl;
             x = cx;
     		return evaluationFunction(curState);
     	}
-        // cout<<"hello9"<<endl;
-
 
     	int c,mi = INT_MAX;
         // cout<<"hello10"<<endl;
@@ -1196,11 +1278,7 @@ public:
     void nextMove(string &retString, vector<vector<int> > &curState, int depth, int alpha, int beta, int player){
     	vector<vector<int> > ret;
         int y;
-    	int c = Max_Val(ret, y, 0, curState, depth, alpha, beta, player);
-
-        // printState(ret);
-        // return;
-
+    	int c = Max_Val(y, 0, curState, depth, alpha, beta, player);
     	vector<string> gs;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
         retString = gs[y];
@@ -1232,6 +1310,7 @@ int main(){
     string a;
     string opponentMove;
     vector<string> abc;
+    int player = identity;
     if(identity == 1){
         auto start = high_resolution_clock::now();
         auto stop = high_resolution_clock::now();
@@ -1240,6 +1319,12 @@ int main(){
         ofstream file;
         file.open ("ex.txt");
         while(timed < time){
+            string s = "";
+            game->nextMove(s, game->board, 4, INT_MIN, INT_MAX, player);
+            cout<<s<<endl;
+            if(game->gameWinner(game->board) == player){
+                cout<<"You won!!"<<endl;
+            }
             opponentMove = "";
             for(int i=0;i<6;i++){
                 cin>>a;
@@ -1249,16 +1334,10 @@ int main(){
             if(game->gameWinner(game->board) == otherPlayer(identity)){
                 cout<<"You lost!"<<endl;
             }
-            string s = "";
-            game->nextMove(s, game->board, 4, INT_MIN, INT_MAX, identity);
-            cout<<string_to_good_string(s)<<endl;
-            if(game->gameWinner(game->board) == identity){
-                cout<<"You won!!"<<endl;
-            }
-            // printState(game->board);
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<seconds>(stop - start);
             int timed=(int)duration.count();
+            printState(game->board);
         }
     }
     if(identity == 2){
@@ -1267,14 +1346,6 @@ int main(){
         auto duration = duration_cast<seconds>(stop - start);
         int timed=(int)duration.count();
         while(timed < time){
-            string s = "";
-            game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, identity);
-            printState(game->board);
-            cout<<string_to_good_string(s)<<endl;
-
-            if(game->gameWinner(game->board) == identity){
-                cout<<"You won!!"<<endl;
-            }
             opponentMove = "";
             for(int i=0;i<6;i++){
                 cin>>a;
@@ -1284,9 +1355,17 @@ int main(){
             if(game->gameWinner(game->board) == otherPlayer(identity)){
                 cout<<"You lost!"<<endl;
             }
+            string s = "";
+            game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, player);
+            cout<<s<<endl;
+
+            if(game->gameWinner(game->board) == player){
+                cout<<"You won!!"<<endl;
+            }
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<seconds>(stop - start);
             int timed=(int)duration.count();
+
         }
     }
     return 0;
