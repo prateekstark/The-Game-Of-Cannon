@@ -42,7 +42,7 @@ class CannonGame{
 public:
     vector<vector<int> > board;
     vector<int> coefficients;
-    CannonGame(){
+    CannonGame(int player){
         vector<int> tempVector1({1, 10, 1, 10, 1, 10, 1, 10});
         vector<int> tempVector2({1, 0, 1, 0, 1, 0, 1, 0});
         vector<int> tempVector3({0, 0, 0, 0, 0, 0, 0, 0});
@@ -63,11 +63,54 @@ public:
         // board.push_back(tempVector2);
         // board.push_back(tempVector2);
         // board.push_back(tempVector1);
-
-        for(int i=0;i<6;i++){
-            coefficients.push_back(1);
-            coefficients.push_back(-1);
+        if(player == 1){
+            coefficients.push_back(-2); //number of soldiers that can be attacked, player 1
+            coefficients.push_back(3); //number of soldier that can be attacked, player 2
+            // coefficients.push_back(0);
+            // coefficients.push_back(0);
+            coefficients.push_back(2); // number of soldier, 1
+            coefficients.push_back(-3); //number of soldier, 2
+            coefficients.push_back(10); // number of townhall, 1
+            coefficients.push_back(-15); // number of townhall, 2
+            coefficients.push_back(6); // number of cannon, 1
+            coefficients.push_back(-8); //numberOfCannon, 2
+            coefficients.push_back(-3); //closenessFactor. 1
+            coefficients.push_back(3); //closenessFactor 2
+            coefficients.push_back(7); // numberOfTownHallCanBeAttacked, 1
+            coefficients.push_back(-4); // numberOfTownHallCanBeAttacked, 2
+            // coefficients.push_back(0); // number of townhall, 1
+            // coefficients.push_back(-29); // number of townhall, 2
+            // coefficients.push_back(0); // number of cannon, 1
+            // coefficients.push_back(0); //numberOfCannon, 2
+            // coefficients.push_back(0); //closenessFactor. 1
+            // coefficients.push_back(0); //closenessFactor 2
+            // coefficients.push_back(0); // numberOfTownHallCanBeAttacked, 1
+            // coefficients.push_back(0); // numberOfTownHallCanBeAttacked, 2
         }
+
+        if(player == 2){
+            coefficients.push_back(3); //number of soldiers that can be attacked, player 1
+            coefficients.push_back(-2); //number of soldier that can be attacked, player 2
+            coefficients.push_back(-3); // number of soldier, 1
+            coefficients.push_back(2); //number of soldier, 2
+            coefficients.push_back(-20); // number of townhall, 1
+            coefficients.push_back(10); // number of townhall, 2
+            coefficients.push_back(-8); // number of cannon, 1
+            coefficients.push_back(6); //numberOfCannon, 2
+            coefficients.push_back(3); //closenessFactor. 1
+            coefficients.push_back(-3); //closenessFactor 2
+            coefficients.push_back(-8); // numberOfTownHallCanBeAttacked, 1
+            coefficients.push_back(12); // numberOfTownHallCanBeAttacked, 2
+        }
+
+    }
+
+
+    int evaluationFunction(vector<vector<int> > myState){
+        int answer = coefficients.at(0)*numberOfSoldierCanbeAttacked(1, myState) + coefficients.at(1)*numberOfSoldierCanbeAttacked(2, myState) + coefficients.at(2)*numberOfSoldiers(1, myState) + coefficients.at(3)*numberOfSoldiers(2, myState);
+        answer = answer + coefficients.at(4)*numberOfTownHall(1, myState) + coefficients.at(5)*numberOfTownHall(2, myState) + coefficients.at(6)*numberOfCannon(1, myState) + coefficients.at(7)*numberOfCannon(2, myState);
+        answer = answer + coefficients.at(8)*closenessFactor(1, myState) + coefficients.at(9)*closenessFactor(2, myState) + coefficients.at(10)*numberOfTownHallCanBeAttacked(1, myState) + coefficients.at(11)*numberOfTownHallCanBeAttacked(2, myState);
+        return answer;
     }
 
     bool areTwoMatrixEqual(vector<vector<int> > v1, vector<vector<int> > v2){
@@ -138,53 +181,47 @@ public:
     }
 
     vector<vector<vector<int> > > generateSteps(vector<string> &genStringMoves, int player, vector<vector<int> > myState){
-        // cout<<"ghusa>"<<endl;
         vector<vector<vector<int> > > allStates;
-        // cout<<"ghusa1"<<endl;
-        if(player == 1){
-
-
-            // cout<<"begin--------------------------"<<player<<"-----------------------------------------begin";
-        }
         vector<vector<int> > child;
         vector<string> possibleMoves1 = validMoves(player, myState);
-        // cout<<"ghusa2"<<endl;
-        for(int i=0;i<possibleMoves1.size();i++){
-            // cout<<"ghusa3"<<endl;
-            child = executeMove(convertStringToVector(possibleMoves1.at(i)), myState);
-            // cout<<"ghusa4"<<endl;
-            if(!doesSpaceContainPlane(allStates, child)){
-                // cout<<"ghusa5"<<endl;
-                // if(player == 1){
-                //     cout<<possibleMoves1[i]<<endl;
-                // }
 
+        vector<string> possibleMoves2 = validCannonMoves(player, myState);
+        for(int i=0;i<possibleMoves2.size();i++){
+            child = executeMove(convertStringToVector(possibleMoves2.at(i)), myState);
+            if(!doesSpaceContainPlane(allStates, child)){
+                allStates.push_back(child);
+                genStringMoves.push_back(possibleMoves2.at(i));
+            }
+            child.clear();
+        }
+        for(int i=0;i<possibleMoves1.size();i++){
+            child = executeMove(convertStringToVector(possibleMoves1.at(i)), myState);
+            if(!doesSpaceContainPlane(allStates, child)){
                 allStates.push_back(child);
                 genStringMoves.push_back(possibleMoves1.at(i));
             }
-            // cout<<"ghusa6"<<endl;
             child.clear();
         }
 
         // return allStates;
         // cout<<"pkmkb1"<<endl;
-        vector<string> possibleMoves2 = validCannonMoves(player, myState);
-        // cout<<"pkmkb2"<<endl;
-        for(int i=0;i<possibleMoves2.size();i++){
-            // cout<<"pkmkb3"<<endl;
-            child = executeMove(convertStringToVector(possibleMoves2.at(i)), myState);
-            // cout<<"pkmkb4"<<endl;
-            if(!doesSpaceContainPlane(allStates, child)){
-                // cout<<"pkmkb5"<<endl;
-                // if(player == 1)
-                    // cout<<possibleMoves2[i]<<endl;
-                allStates.push_back(child);
-                genStringMoves.push_back(possibleMoves2.at(i));
-            }
-            child.clear();
-            // cout<<"pkmkb6"<<endl;
-
-        }
+        // vector<string> possibleMoves2 = validCannonMoves(player, myState);
+        // // cout<<"pkmkb2"<<endl;
+        // for(int i=0;i<possibleMoves2.size();i++){
+        //     // cout<<"pkmkb3"<<endl;
+        //     child = executeMove(convertStringToVector(possibleMoves2.at(i)), myState);
+        //     // cout<<"pkmkb4"<<endl;
+        //     if(!doesSpaceContainPlane(allStates, child)){
+        //         // cout<<"pkmkb5"<<endl;
+        //         // if(player == 1)
+        //             // cout<<possibleMoves2[i]<<endl;
+        //         allStates.push_back(child);
+        //         genStringMoves.push_back(possibleMoves2.at(i));
+        //     }
+        //     child.clear();
+        //     // cout<<"pkmkb6"<<endl;
+        //
+        // }
         // if(player == 1)
             // cout<<"end--------------------------"<<player<<"-----------------------------------------end";
 
@@ -482,6 +519,7 @@ public:
                 }
             }
         }
+        return count;
     }
 
     int numberOfTownHall(int player, vector<vector<int> > myState){
@@ -515,7 +553,7 @@ public:
             for(int i=0;i<myState.size();i++){
                 for(int j=0;j<myState.size();j++){
                     if(myState.at(i).at(j) == player){
-                        count = count + i;
+                        count = count + j;
                     }
                 }
             }
@@ -524,7 +562,7 @@ public:
             for(int i=0;i<myState.size();i++){
                 for(int j=0;j<myState.at(0).size();j++){
                     if(myState.at(i).at(j) == player){
-                        count = count + (n-i-1);
+                        count = count + (n-j-1);
                     }
                 }
             }
@@ -737,12 +775,7 @@ public:
         return count;
     }
 
-    int evaluationFunction(vector<vector<int> > myState){
-        int answer = coefficients.at(0)*numberOfSoldierCanbeAttacked(1, myState) + coefficients.at(1)*numberOfSoldierCanbeAttacked(2, myState) + coefficients.at(2)*numberOfSoldiers(1, myState) + coefficients.at(3)*numberOfSoldiers(2, myState);
-        answer = answer + coefficients.at(4)*numberOfTownHall(1, myState) + coefficients.at(5)*numberOfTownHall(2, myState) + coefficients.at(6)*numberOfCannon(1, myState) + coefficients.at(7)*numberOfCannon(2, myState);
-        answer = answer + coefficients.at(8)*closenessFactor(1, myState) + coefficients.at(9)*closenessFactor(2, myState) + coefficients.at(10)*numberOfTownHallCanBeAttacked(1, myState) + coefficients.at(11)*numberOfTownHallCanBeAttacked(2, myState);
-        return answer;
-    }
+
 
     bool isSoldierLeadOfCannon(int x, int y, int player, vector<vector<int> > myState){
         int n = myState.size();
@@ -904,7 +937,7 @@ public:
     							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j);
     							moves.push_back(move);
     						}
-                            if(j-1 < m){
+                            if(j-1 >= 0){
                                 // cout<<"baweja8"<<endl;
         							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i-1) + " " + to_string(j-1);
                                     if(myState.at(i-1).at(j-1) != 1 && myState.at(i-1).at(j) == 10){
@@ -912,7 +945,7 @@ public:
         						}
                             }
                         }
-                        if(j-1 < m){
+                        if(j-1 >= 0){
                             // cout<<"baweja9"<<endl;
                             if(myState.at(i).at(j-1) != 1 && myState.at(i).at(j-1) != 10){
     							move = "S " + to_string(i) + " " + to_string(j) + " M " + to_string(i) + " " + to_string(j-1);
@@ -957,25 +990,25 @@ public:
                                 }
                                 // cout<<"sona6"<<endl;
                                 if(j-2 >= 0){
-                                    if(myState.at(i).at(j-2) != player){
+                                    if(myState.at(i).at(j-2) != player && myState.at(i).at(j-2) != player*10 && myState.at(i).at(j-1) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-2);
             							moves.push_back(move);
                                     }
                                 }
                                 if(j-3 >= 0){
-                                    if(myState.at(i).at(j-3) != player){
+                                    if(myState.at(i).at(j-3) != player && myState.at(i).at(j-3) != player*10 && myState.at(i).at(j-1) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-3);
             							moves.push_back(move);
                                     }
                                 }
                                 if(j+4 < m){
-                                    if(myState.at(i).at(j+4) != player){
+                                    if(myState.at(i).at(j+4) != player && myState.at(i).at(j+4) != player*10 && myState.at(i).at(j+3) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+4);
             							moves.push_back(move);
                                     }
                                 }
                                 if(j+5 < m){
-                                    if(myState.at(i).at(j+5)){
+                                    if(myState.at(i).at(j+5) != player && myState.at(i).at(j+5) != player*10 && myState.at(i).at(j+3) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+5);
             							moves.push_back(move);
                                     }
@@ -997,24 +1030,24 @@ public:
             							}
                                     }
                                     if(j-2 >= 0 && i+2 < n){
-                                        if(myState.at(i+2).at(j-2) != player){
+                                        if(myState.at(i+2).at(j-2) != player && myState.at(i+2).at(j-2) != player*10 && myState.at(i+1).at(j-1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j-2);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j-3 >= 0 && i+3 < n){
-                                        if(myState.at(i+3).at(j-3) != player){
+                                        if(myState.at(i+3).at(j-3) != player && myState.at(i+3).at(j-3) != player*10 && myState.at(i+1).at(j-1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j-3);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j+4 < m && i-4 >= 0){
-                                        if(myState.at(i-4).at(j+4) != player)
+                                        if(myState.at(i-4).at(j+4) != player && myState.at(i-4).at(j+4) != player*10 && myState.at(i-3).at(j+3) == 0)
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j+4);
             							moves.push_back(move);
                                     }
                                     if(j+5 < m && i-5 >= 0){
-                                        if(myState.at(i-5).at(j+5) != player){
+                                        if(myState.at(i-5).at(j+5) != player && myState.at(i-5).at(j+5) != player*10 && myState.at(i-3).at(j+3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j+5);
                 							moves.push_back(move);
                                         }
@@ -1036,25 +1069,25 @@ public:
             							}
                                     }
                                     if(j-2 >= 0 && i-2 >= 0){
-                                        if(myState.at(i-2).at(j-2) != player){
+                                        if(myState.at(i-2).at(j-2) != player && myState.at(i-2).at(j-2) != player*10 && myState.at(i-1).at(j-1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-2) + " " + to_string(j-2);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j-3 >= 0 && i-3 >= 0){
-                                        if(myState.at(i-3).at(j-3) != player){
+                                        if(myState.at(i-3).at(j-3) != player && myState.at(i-3).at(j-3) != player*10 && myState.at(i-1).at(j-1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-3) + " " + to_string(j-3);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j+4 < m && i+4 < n){
-                                        if(myState.at(i+4).at(j+4) != player){
+                                        if(myState.at(i+4).at(j+4) != player && myState.at(i+4).at(j+4) != player*10 && myState.at(i+3).at(j+3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+4) + " " + to_string(j+4);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j+5 < m && i+5 < n){
-                                        if(myState.at(i+5).at(j+5) != player){
+                                        if(myState.at(i+5).at(j+5) != player && myState.at(i+5).at(j+5) != player*10 && myState.at(i+3).at(j+3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+5) + " " + to_string(j+5);
                 							moves.push_back(move);
                                         }
@@ -1091,34 +1124,33 @@ public:
                                 }
                                 // cout<<"sona6"<<endl;
                                 if(j+2 < m){
-                                    if(myState.at(i).at(j+2) != player){
+                                    if(myState.at(i).at(j+2) != player && myState.at(i).at(j+2) != player*10 && myState.at(i).at(j+1) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+2);
             							moves.push_back(move);
                                     }
                                 }
                                 // cout<<"sona7"<<endl;
                                 if(j+3 < m){
-                                    if(myState.at(i).at(j+3) != player){
+                                    if(myState.at(i).at(j+3) != player && myState.at(i).at(j+3) != player*10 && myState.at(i).at(j+1) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j+3);
             							moves.push_back(move);
                                     }
                                 }
                                 // cout<<"sona8"<<endl;
                                 if(j-4 >= 0){
-                                    if(myState.at(i).at(j-4) != player){
+                                    if(myState.at(i).at(j-4) != player && myState.at(i).at(j-4) != player*10 && myState.at(i).at(j-3) == 0){
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-4);
             							moves.push_back(move);
                                     }
                                 }
                                 // cout<<"sona9"<<endl;
                                 if(j-5 >= 0){
-                                    if(myState.at(i).at(j-5) != player){
-                                        move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-5);
+                                    move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i) + " " + to_string(j-5);
+                                    if(myState.at(i).at(j-5) != player && myState.at(i).at(j-5) != player*10 && myState.at(i).at(j-3) == 0){
             							moves.push_back(move);
                                     }
                                 }
                             }
-                            // cout<<"sona10"<<endl;
                             if(i-2 >= 0 && j-2 >= 0){
                                 if(myState.at(i-1).at(j-1) == 2 && myState.at(i-2).at(j-2) == 2){
                                     if(i-3 >= 0 && j-3 >= 0){
@@ -1136,28 +1168,28 @@ public:
                                     }
                                     // cout<<"sona12"<<endl;
                                     if(j+2 < m && i+2 < n){
-                                        if(myState.at(i+2).at(j+2) != player){
+                                        if(myState.at(i+2).at(j+2) != player && myState.at(i+2).at(j+2) != player*10 && myState.at(i+1).at(j+1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j+2);
                 							moves.push_back(move);
                                         }
                                     }
                                     // cout<<"sona13"<<endl;
                                     if(j+3 < m && i+3 < n){
-                                        if(myState.at(i+3).at(j+3) != player){
+                                        if(myState.at(i+3).at(j+3) != player && myState.at(i+1).at(j+1) == 0 && myState.at(i+3).at(j+3) != player*10){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j+3);
                 							moves.push_back(move);
                                         }
                                     }
                                     // cout<<"sona14"<<endl;
                                     if(j-4 >= 0 && i-4 >= 0){
-                                        if(myState.at(i-4).at(j-4) != player){
+                                        if(myState.at(i-4).at(j-4) != player && myState.at(i-4).at(j-4) != player*10 && myState.at(i-3).at(j-3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j-4);
                 							moves.push_back(move);
                                         }
                                     }
                                     // cout<<"sona15"<<endl;
                                     if(j-5 >= 0 && i-5 >= 0){
-                                        if(myState.at(i-5).at(j-5) != player){
+                                        if(myState.at(i-5).at(j-5) != player && myState.at(i-5).at(j-5) != player*10 && myState.at(i-3).at(j-3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j-5);
                 							moves.push_back(move);
                                         }
@@ -1179,26 +1211,26 @@ public:
             							}
                                     }
                                     if(j+2 < m && i-2 >= 0){
-                                        if(myState.at(i-2).at(j+2) != player){
+                                        if(myState.at(i-2).at(j+2) != player && myState.at(i-2).at(j+2) != player*10 && myState.at(i-1).at(j+1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-2) + " " + to_string(j+2);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j+3 < m && i-3 >= 0){
-                                        if(myState.at(i-3).at(j+3) != player){
+                                        if(myState.at(i-3).at(j+3) != player && myState.at(i-3).at(j+3) != player*10 && myState.at(i-1).at(j+1) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-3) + " " + to_string(j+3);
                 							moves.push_back(move);
                                         }
 
                                     }
                                     if(i+4<n && j-4 >= 0){
-                                        if(myState.at(i).at(j-4) != player){
+                                        if(myState.at(i+4).at(j-4) != player && myState.at(i+4).at(j-4) != player*10 && myState.at(i+3).at(j-3) == 0){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+4) + " " + to_string(j-4);
                 							moves.push_back(move);
                                         }
                                     }
                                     if(j-5 >= 0 && i+5 < n){
-                                        if(myState.at(i+5).at(j-5) != player){
+                                        if(myState.at(i+5).at(j-5) != player && myState.at(i+3).at(j-3) == 0 && myState.at(i+5).at(j-5) != player*10){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+5) + " " + to_string(j-5);
                 							moves.push_back(move);
                                         }
@@ -1213,72 +1245,64 @@ public:
         return moves;
     }
 
-    int Max_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
-    	if(d == 0){
-            x = cx;
-            return 0;
+    int Max_Val(int &x,vector<vector<int> > curState, int d, int alpha, int beta, int player){
+    	if(d == 0 || gameWinner(curState)){
+            return evaluationFunction(curState);
     	}
     	int c, ma = INT_MIN;
         vector<string> gs;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
     	for(int i=0; i<nextMoves.size(); i++){
             int y;
-    		c = Min_Val(y, i, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
+    		c = Min_Val(y, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
             alpha = max(alpha,c);
-    		if(alpha >= beta){
-                x = y;
-    			return c;
-    		}
+
     		if(c > ma){
     			ma = c;
-                x = y;
+                x = i;
     		}
+
+            if(alpha >= beta){
+                //cout<<alpha<<"  "<<beta <<endl;
+                //cout<<evaluationFunction(nextMoves[x]) << " " << d <<endl;
+    			return c;
+    		}
+
     	}
-    	return ma;
+        //cout<<evaluationFunction(nextMoves[x]) << " " << d <<endl;
+        return ma;
     }
 
-    int Min_Val(int &x, int cx, vector<vector<int> > curState, int d, int alpha, int beta, int player){
-    	if(d == 0){
-            x = cx;
+    int Min_Val(int &x,vector<vector<int> > curState, int d, int alpha, int beta, int player){
+    	if(d == 0 || gameWinner(curState)){
     		return evaluationFunction(curState);
     	}
 
-    	int c,mi = INT_MAX;
-        // cout<<"hello10"<<endl;
+    	int c, mi = INT_MAX;
         vector<string> gs;
-        // cout<<"pkmkb100"<<endl;
-        // cout<<player<<endl;
-        // printState(curState);
-        // cout<<"pkmkb1"<<endl;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
-        // cout<<"hello11"<<endl;
     	for(int i=0; i<nextMoves.size() ;i++){
-            // cout<<"hello12"<<endl;
             int y;
-    		c = Max_Val(y,i,nextMoves[i],d-1,alpha,beta, otherPlayer(player));
-            // cout<<"hello13"<<endl;
+    		c = Max_Val(y,nextMoves[i], d-1, alpha, beta, otherPlayer(player));
     		beta = min(beta, c);
-            // cout<<"hello14"<<endl;
-    		if(alpha >= beta){
-                x = y;
-    			return c;
-    		}
-            // cout<<"hello15"<<endl;
 
     		if(c < mi){
     			mi = c;
-                x = y;
-                // cout<<"hello16"<<endl;
+                x = i;
     		}
-            // cout<<"hello17"<<endl;
+            if(alpha >= beta){
+                //cout<<alpha<<"  "<<beta <<endl;
+                //cout<<evaluationFunction(nextMoves[x]) << " " << d <<endl;
+    			return c;
+    		}
     	}
+        //cout<<evaluationFunction(nextMoves[x]) << " " << d <<endl;
     	return mi;
     }
 
     void nextMove(string &retString, vector<vector<int> > &curState, int depth, int alpha, int beta, int player){
-    	vector<vector<int> > ret;
         int y;
-    	int c = Max_Val(y, 0, curState, depth, alpha, beta, player);
+    	int c = Max_Val(y, curState, depth, alpha, beta, player);
     	vector<string> gs;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
         retString = gs[y];
@@ -1293,7 +1317,7 @@ public:
         if(n1-n2 == 2){
             return 1;
         }
-        if(n2-n1 == 1){
+        if(n2-n1 == 2){
             return 2;
         }
         return 0;
@@ -1306,11 +1330,12 @@ int main(){
     //One is black, other is white
     int n, m, identity, time;
     cin>> identity >> n >> m >> time;
-    CannonGame *game = new CannonGame();
+
     string a;
     string opponentMove;
     vector<string> abc;
     int player = identity;
+    CannonGame *game = new CannonGame(player);
     if(identity == 1){
         auto start = high_resolution_clock::now();
         auto stop = high_resolution_clock::now();
@@ -1320,24 +1345,20 @@ int main(){
         file.open ("ex.txt");
         while(timed < time){
             string s = "";
-            game->nextMove(s, game->board, 4, INT_MIN, INT_MAX, player);
+            game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, player);
+            // printState(game->board);
             cout<<s<<endl;
-            if(game->gameWinner(game->board) == player){
-                cout<<"You won!!"<<endl;
-            }
             opponentMove = "";
             for(int i=0;i<6;i++){
                 cin>>a;
                 abc.push_back(a);
             }
             game->board = game->executeMove(abc, game->board);
-            if(game->gameWinner(game->board) == otherPlayer(identity)){
-                cout<<"You lost!"<<endl;
-            }
+            // printState(game->board);
+            abc.clear();
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<seconds>(stop - start);
             int timed=(int)duration.count();
-            printState(game->board);
         }
     }
     if(identity == 2){
@@ -1352,16 +1373,10 @@ int main(){
                 abc.push_back(a);
             }
             game->board = game->executeMove(abc, game->board);
-            if(game->gameWinner(game->board) == otherPlayer(identity)){
-                cout<<"You lost!"<<endl;
-            }
+            abc.clear();
             string s = "";
             game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, player);
             cout<<s<<endl;
-
-            if(game->gameWinner(game->board) == player){
-                cout<<"You won!!"<<endl;
-            }
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<seconds>(stop - start);
             int timed=(int)duration.count();
