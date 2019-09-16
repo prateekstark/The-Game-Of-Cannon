@@ -142,6 +142,7 @@ public:
             }
             child.clear();
         }
+        // return allStates;
         vector<string> possibleMoves2 = validCannonMoves(player, myState);
         for(int i=0;i<possibleMoves2.size();i++){
             child = executeMove(convertStringToVector(possibleMoves2.at(i)), myState);
@@ -861,31 +862,31 @@ public:
             								moves.push_back(move);
             							}
                                     }
-                                    if(i+1 <= n && j-1 >= 0){
+                                    if(i+1 < n && j-1 >= 0){
                                         if(myState.at(i+1).at(j-1) == 0){
             								move = "S " + to_string(i-2) + " " + to_string(j+2) + " M " + to_string(i+1) + " " + to_string(j-1);
             								moves.push_back(move);
             							}
                                     }
-                                    if(j-2 >= 0){
-                                        if(myState.at(i).at(j-2) != player){
+                                    if(j-2 >= 0 && i+2 < n){
+                                        if(myState.at(i+2).at(j-2) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j-2);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j-3 >= 0){
-                                        if(myState.at(i).at(j-3) != player){
+                                    if(j-3 >= 0 && i+3 < n){
+                                        if(myState.at(i+3).at(j-3) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j-3);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j+4 < m){
-                                        if(myState.at(i).at(j+4) != player)
+                                    if(j+4 < m && i-4 >= 0){
+                                        if(myState.at(i-4).at(j+4) != player)
                                         move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j+4);
             							moves.push_back(move);
                                     }
-                                    if(j+5 < m){
-                                        if(myState.at(i).at(j+5) != player){
+                                    if(j+5 < m && i-5 >= 0){
+                                        if(myState.at(i-5).at(j+5) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j+5);
                 							moves.push_back(move);
                                         }
@@ -906,26 +907,26 @@ public:
             								moves.push_back(move);
             							}
                                     }
-                                    if(j-2 >= 0){
-                                        if(myState.at(i).at(j-2) != player){
+                                    if(j-2 >= 0 && i-2 >= 0){
+                                        if(myState.at(i-2).at(j-2) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-2) + " " + to_string(j-2);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j-3 >= 0){
-                                        if(myState.at(i).at(j-3) != player){
+                                    if(j-3 >= 0 && i-3 >= 0){
+                                        if(myState.at(i-3).at(j-3) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-3) + " " + to_string(j-3);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j+4 < m){
-                                        if(myState.at(i).at(j+4) != player){
+                                    if(j+4 < m && i+4 < n){
+                                        if(myState.at(i+4).at(j+4) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+4) + " " + to_string(j+4);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j+5 < m){
-                                        if(myState.at(i).at(j+5) != player){
+                                    if(j+5 < m && i+5 < n){
+                                        if(myState.at(i+5).at(j+5) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+5) + " " + to_string(j+5);
                 							moves.push_back(move);
                                         }
@@ -988,32 +989,32 @@ public:
             								moves.push_back(move);
             							}
                                     }
-                                    if(i+1 <= n && j+1 < m){
+                                    if(i+1 < n && j+1 < m){
                                         if(myState.at(i+1).at(j+1) == 0){
             								move = "S " + to_string(i-2) + " " + to_string(j-2) + " M " + to_string(i+1) + " " + to_string(j+1);
             								moves.push_back(move);
             							}
                                     }
-                                    if(j+2 < m){
-                                        if(myState.at(i).at(j+2) != player){
+                                    if(j+2 < m && i+2 >= 0){
+                                        if(myState.at(i+2).at(j+2) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+2) + " " + to_string(j+2);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j+3 < m){
-                                        if(myState.at(i).at(j+3) != player){
+                                    if(j+3 < m && i+3 >= 0){
+                                        if(myState.at(i+3).at(j+3) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+3) + " " + to_string(j+3);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j-4 >= 0){
-                                        if(myState.at(i).at(j-4) != player){
+                                    if(j-4 >= 0 && i-4 >= 0){
+                                        if(myState.at(i-4).at(j-4) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-4) + " " + to_string(j-4);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j-5 >= 0){
-                                        if(myState.at(i).at(j-5) != player){
+                                    if(j-5 >= 0 && i-5 >= 0){
+                                        if(myState.at(i-5).at(j-5) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-5) + " " + to_string(j-5);
                 							moves.push_back(move);
                                         }
@@ -1034,26 +1035,27 @@ public:
             								moves.push_back(move);
             							}
                                     }
-                                    if(j+2 < m){
-                                        if(myState.at(i).at(j+2) != player){
+                                    if(j+2 < m && i-2 >= 0){
+                                        if(myState.at(i-2).at(j+2) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-2) + " " + to_string(j+2);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j+3 < m){
-                                        if(myState.at(i).at(j+3) != player){
+                                    if(j+3 < m && i-3 >= 0){
+                                        if(myState.at(i-3).at(j+3) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i-3) + " " + to_string(j+3);
                 							moves.push_back(move);
-                                            if(j-4 >= 0){
                                         }
+
                                     }
+                                    if(i+4<n && j-4 >= 0){
                                         if(myState.at(i).at(j-4) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+4) + " " + to_string(j-4);
                 							moves.push_back(move);
                                         }
                                     }
-                                    if(j-5 >= 0){
-                                        if(myState.at(i).at(j-5) != player){
+                                    if(j-5 >= 0 && i+5 < n){
+                                        if(myState.at(i+5).at(j-5) != player){
                                             move = "S " + to_string(i) + " " + to_string(j) + " B " + to_string(i+5) + " " + to_string(j-5);
                 							moves.push_back(move);
                                         }
@@ -1073,21 +1075,22 @@ public:
     	if(d == 0){
     		ret = curState;
             x = cx;
-    		return evaluationFunction(curState);
+    		// return evaluationFunction(curState);
+            return 0;
     	}
     	int c, ma = INT_MIN;
         vector<string> gs;
+        cout<<"hello1"<<endl;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
-        for(int i=0;i<nextMoves.size();i++){
-            printState(nextMoves.at(i));
-            cout<<endl;
-        }
-        return 0;
+        cout<<"hello2"<<endl;
+        cout<<nextMoves.size()<<endl;
+
     	for(int i=0; i<nextMoves.size(); i++){
     		vector<vector<int> > r;
             int y;
-    		c = Min_Val(r,y,i,nextMoves[i],d-1,alpha,beta, otherPlayer(player));
-    		alpha = max(alpha,c);
+            cout<<i<<endl;
+    		c = Min_Val(r, y, i, nextMoves[i], d-1, alpha, beta, otherPlayer(player));
+            alpha = max(alpha,c);
 
     		if(alpha >= beta){
     			ret = r;
@@ -1101,7 +1104,7 @@ public:
                 x = y;
     		}
     	}
-
+        cout<<"madafaqa"<<endl;
     	return ma;
     }
 
@@ -1116,17 +1119,13 @@ public:
 
         vector<string> gs;
     	vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
-        // for(int i=0;i<nextMoves.size();i++){
-        //     printState(nextMoves.at(i));
-        //     cout<<endl;
-        // }
-        // return 0;
+
     	for(int i=0; i<nextMoves.size() ;i++){
 
     		vector<vector<int> > r;
             int y;
     		c = Max_Val(r,y,i,nextMoves[i],d-1,alpha,beta, otherPlayer(player));
-    		beta = min(beta,c);
+    		beta = min(beta, c);
 
     		if(alpha >= beta){
     			ret = r;
@@ -1147,8 +1146,12 @@ public:
     	vector<vector<int> > ret;
         int y;
     	int c = Max_Val(ret, y, 0, curState, depth, alpha, beta, player);
-    	curState = ret;
-        vector<string > gs;
+
+        // printState(ret);
+        return;
+
+        curState = ret;
+        vector<string> gs;
 
         vector<vector<vector<int> > > nextMoves = generateSteps(gs, player, curState);
         retString = gs[y];
@@ -1212,7 +1215,7 @@ int main(){
         while(timed < time){
             string s = "";
             // return 0;
-            game->nextMove(s, game->board, 4, INT_MIN, INT_MAX, identity);
+            game->nextMove(s, game->board, 2, INT_MIN, INT_MAX, identity);
             printState(game->board);
             return 0;
             cout<<string_to_good_string(s)<<endl;
