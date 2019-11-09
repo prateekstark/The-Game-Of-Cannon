@@ -1,2 +1,2 @@
-./SmartPlayerMinMax
+./SmartPlayerMCTS
 

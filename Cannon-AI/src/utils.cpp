@@ -1,14 +1,6 @@
-#include<bits/stdc++.h>
-#include<chrono>
-#include<fstream>
-using namespace std::chrono;
-using namespace std;
-
+#include "../include/utils.h"
 int otherPlayer(int player){
-    if(player == 1){
-        return 2;
-    }
-    return 1;
+    return (3 - player);
 }
 
 void printState(vector<vector<int> > myState){
@@ -21,19 +13,21 @@ void printState(vector<vector<int> > myState){
 }
 
 string string_to_good_string(string bad){
-    vector<string> result;
+    string result[6];
     string s = bad;
     istringstream iss(s);
+    int i = 0;
     for(string s; iss >> s;){
-        result.push_back(s);
+        result[i] = s;
+        i++;
     }
     string a;
-    a = result.at(1);
+    a = result[1];
     result[1] = result[2];
     result[2] = a;
-    a = result.at(4);
-    result.at(4) = result.at(5);
-    result.at(5) = a;
+    a = result[4];
+    result[4] = result[5];
+    result[5] = a;
     string answer = result[0] + " " + result[1] + " " + result[2] + " " + result[3] + " " + result[4] + " " + result[5];
     return answer;
 }

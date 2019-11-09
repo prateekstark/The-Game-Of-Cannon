@@ -1,7 +1,9 @@
+
 from game import Game
 import random
 import sys
 import time
+
 class RandomPlayer:
 	def __init__(self):
 		data = sys.stdin.readline().strip().split()
@@ -60,8 +62,8 @@ class RandomPlayer:
 
 				if(state == 1):
 					while(1):
-						r = random.randint(0, 10)
-						if(r < 10):
+						r = random.randint(0, 6)
+						if(r < 6):
 							move, type, x, y = self.moveSoldier()
 						else:
 							move, type, x, y = self.throwBomb()

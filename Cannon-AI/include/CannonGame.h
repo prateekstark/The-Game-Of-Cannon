@@ -3,6 +3,7 @@ class CannonGame{
 public:
     vector<vector<int> > board;
     vector<int> coefficients;
+    int player;
     CannonGame(int player, int n, int m);
     
     int evaluationFunction(vector<vector<int> > myState);
@@ -48,5 +49,7 @@ public:
     void nextMove(string &retString, vector<vector<int> > &curState, int depth, int alpha, int beta, int player);
 
     int gameWinner(vector<vector<int> > myState);
+
+    int gameWinnerMCTS();
 
 };

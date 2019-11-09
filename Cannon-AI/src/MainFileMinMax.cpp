@@ -16,16 +16,15 @@ int main(){
         while(timed < time){
         	int d;
         	if(timed < time/3){
-        		d = 3;
+        		d = 4;
         	}else if(timed < 5*time/6){
         		d = 4;
         	}else{
-        		d = 2;
+        		d = 4;
         	}
 
             string s = "";
             game->nextMove(s, game->board, d, INT_MIN, INT_MAX, player);
-            // printState(game->board);
             cout<<s<<endl;
             opponentMove = "";
             for(int i=0;i<6;i++){
@@ -33,7 +32,6 @@ int main(){
                 abc.push_back(a);
             }
             game->board = game->executeMove(abc, game->board);
-            // printState(game->board);
             abc.clear();
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<seconds>(stop - start);
@@ -48,11 +46,11 @@ int main(){
         while(timed < time){
         	int d;
         	if(timed < time/3){
-        		d = 3;
+        		d = 4;
         	}else if(timed < 5*time/6){
         		d = 4;
         	}else{
-        		d = 2;
+        		d = 4;
         	}
             opponentMove = "";
             for(int i=0;i<6;i++){
