@@ -1,17 +1,5 @@
-user_zip=$1
-user_folder=${user_zip%.*}
-roll_number=${user_zip%_*}
+cd 2017CS10360_StarkBot
 
-rm -rf $user_folder
-unzip $user_zip
-cd $user_folder
-
-# Get the latest git
-git clone https://github.com/goelShashank007/Cannon-AI.git
-# Copy the files (Replaces the existing files!)
-cp -R Cannon-AI/* .
-
-# Compile the user code
 bash compile.sh
 
 # Run the code

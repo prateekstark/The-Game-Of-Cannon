@@ -1,25 +1,8 @@
 # Cannon
 Simulator supporting a user interface for Cannon, an abstract strategy board game.
 
-## Details
-This is a course assignment for the graduate-level Artificial Intelligence course taught by [**Prof. Mausam**](http://homes.cs.washington.edu/~mausam).  
-The assignment documentation can be found [here](http://www.cse.iitd.ac.in/~mausam/courses/col333/autumn2019/A5/A5.pdf)
-
-### Teaching Assistants
-+ [Divyanshu Saxena](https://github.com/DivyanshuSaxena)
-+ [Pratyush Maini](https://github.com/pratyush911)
-+ [Shashank Goel](https://github.com/goelShashank007)
-+ [Vipul Rathore](https://github.com/rathorevipul28)
-
 ## Rules
 The rules of the original game can be found [here](https://nestorgames.com/rulebooks/CANNON_EN.pdf)
-
-### Piazza discussions:  
-+ The soldier can retreat back if and only if it is adjacent to an enemy soldier.
-+ The soldier can kill an enemy soldier or a townhall in a retreat step.
-+ Cannon shifts along its length cannot capture a soldier or a townhall.
-+ Blank cannon shots are allowed (take care of stagnant game) and are considered valid moves.
-
 
 ### Stalemate
 Case 1: Player A (or B) kills the last soldier of Player B (or A).  
@@ -57,13 +40,13 @@ You can check you chrome version following the steps below:
   > `exe` (mandatory) - The Executable.  
   > `mode` (optional) - The View Mode ('GUI' / 'CUI'). Default: 'CUI'  
 + `server.py` - This connects the clients and manages the transfer of information.
-  > `port` (mandatory) - The Server Port.  
-  > `ip` (optional) - The Server IP. Default: 0.0.0.0   
-  > `n` (optional) - The Board Row Size. Default: 8  
-  > `m` (optional) - The Board Column Size. Default: 8  
-  > `NC` (optional) - Number of Clients. Default: 2  
-  > `TL` (optional) - Time Limit. Default:150  
-  > `LOG` (optional) - The Log File.  
+  > `port` (mandatory) - The Server Port.
+  > `ip` (optional) - The Server IP. Default: 0.0.0.0
+  > `n` (optional) - The Board Row Size. Default: 8
+  > `m` (optional) - The Board Column Size. Default: 8 
+  > `NC` (optional) - Number of Clients. Default: 2
+  > `TL` (optional) - Time Limit. Default:150
+  > `LOG` (optional) - The Log File.
 
 ## Run Instructions
 Here are the sample instructions used to match two random players against each other over the server network.
@@ -86,7 +69,7 @@ python client.py 0.0.0.0 10000 RandomPlayer.py
 
 ## Gameplay
 The game play consists of the players executing a sequence of moves in a single turn.
-A move is a triple: `type` `x` `y`.  
+A move is a triple: `type` `x` `y`.
 
 ### Movetype
 + `S` - Select a soldier
@@ -101,7 +84,7 @@ The vertical direction towards down is the positive y-axis.
 The indexing begins with 0 in both the directions.
 
 #### Move a Soldier
-To move a soldier from (1, 2) to (2, 4).  
+To move a soldier from (1, 2) to (2, 4).
 `S 1 2 M 2 4`
 
 #### Throw a Bomb
@@ -161,13 +144,13 @@ Player A forced a Stagnant Game.
 **Note:** In case a player suffers a TIMEOUT or INVALID move, it will automatically lose the game and it will count as a (2 - *x*) defeat towards the player and a (*x* - 2) win for the opponent, where *x* is the number of Town Halls killed by the opponent. 
 
 ### The Army Margin
-This score directly depends on the number of soldiers you have left at the end of the game. It is calculated as follows:  
+This score directly depends on the number of soldiers you have left at the end of the game. It is calculated as follows:
 ```Army Margin Score = # (Soldiers Remaining) / 100```
 
 ### Final Score
 The final score is simply: ```(Town Hall Margin Score).(Army Margin Score)```
-Example. Assume the following:  
-Player 1 killed 2 Town Halls and has 12 soldiers left on the board.  
-Player 2 killed 1 Town Hall and has 9 soldiers left on the board.  
-Player 1 score will be: **8.12**  
-Player 2 score will be: **2.09**  
+Example. Assume the following:
+Player 1 killed 2 Town Halls and has 12 soldiers left on the board.
+Player 2 killed 1 Town Hall and has 9 soldiers left on the board.
+Player 1 score will be: **8.12**
+Player 2 score will be: **2.09**
